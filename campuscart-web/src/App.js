@@ -9,7 +9,9 @@ import Navbar from './components/Navbar';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('token');
-  if (!token) {
+  const isValid = token && token.length > 10 && token !== 'undefined';
+  if (!isValid) {
+    localStorage.clear();
     return <Navigate to="/login" replace />;
   }
   return children;

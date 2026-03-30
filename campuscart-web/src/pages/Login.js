@@ -15,8 +15,13 @@ export default function Login() {
     setLoading(true); setError('');
     try {
       const res = await API.post('/auth/login', { email, password });
-      localStorage.setItem('token', res.data);
-      navigate('/');
+      const token = res.data;
+      if (token && token.length > 10) {
+        localStorage.setItem('token', token);
+        navigate('/');
+      } else {
+        setError('Login failed! Server se token nahi aaya.');
+      }
     } catch { setError('Wrong email ya password!'); }
     setLoading(false);
   };
